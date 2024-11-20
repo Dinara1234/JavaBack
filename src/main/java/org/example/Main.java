@@ -60,7 +60,7 @@ public class Main {
         List<Future<String>> futures = new ArrayList<>();
         int i = 1;
         for (String url : urls) {
-            DownloadTask downloadTask = new DownloadTask(url, FILE_NAME, i);
+            DownloadPicTask downloadTask = new DownloadPicTask(url, FILE_NAME, i);
             futures.add(executorService.submit(downloadTask));
             i++;
         }
@@ -75,12 +75,12 @@ public class Main {
 
     }
 
-    public static class DownloadTask implements Callable<String> {
+    public static class DownloadPicTask implements Callable<String> {
         private String url_file;
         private String file_name;
         private int index;
 
-        public DownloadTask(String url_file, String file_name, int index ) {
+        public DownloadPicTask(String url_file, String file_name, int index ) {
             this.url_file = url_file;
             this.index = index;
             this.file_name = file_name;
@@ -88,13 +88,13 @@ public class Main {
 
         @Override
         public String call() throws Exception {
-            picDownloading(url_file, file_name, index);
+            pictureDownloading(url_file, file_name, index);
             System.out.println("Картинка скопировалась в " + file_name +"\\" + index + ".png");
             return "Картинка скопировалась в " + file_name +"\\" + index + ".png";
 
         }
     }
-    public static void picDownloading(String FILE_URL, String FILE_NAME, int index) throws IOException {
+    public static void pictureDownloading(String FILE_URL, String FILE_NAME, int index) throws IOException {
         InputStream in = new URL(FILE_URL).openStream();
         Files.copy(in, Paths.get(FILE_NAME  +"\\"+ index + ".png"), StandardCopyOption.REPLACE_EXISTING);
     }
